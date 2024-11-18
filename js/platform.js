@@ -8,13 +8,7 @@ class Platform {
         this.sprite.src = sprite;
     }
 
-    draw(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+    draw(ctx, camera) {
+        ctx.drawImage(this.sprite, this.x - camera.offsetX, this.y, this.width, this.height);
     }
 }
-
-const platforms = [
-    new Platform(100, 500, 200, 20, './assets/sprites/Platform.png'),
-    new Platform(400, 400, 200, 20, './assets/sprites/Platform.png'),
-    new Platform(600, 400, 200, 20, './assets/sprites/Platform.png')
-];

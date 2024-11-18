@@ -9,19 +9,14 @@ class Enemy {
         this.velocity = { x: 1, y: 0 };
     }
 
-    draw(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+    draw(ctx, camera) {
+        ctx.drawImage(this.sprite, this.x - camera.offsetX, this.y, this.width, this.height);
     }
 
     update(deltaTime) {
-        // Simple movement logic
         this.x += this.velocity.x;
         if (this.x < 0 || this.x + this.width > canvas.width) {
-            this.velocity.x *= -1;
+            this.velocity.x *= -1; // Reverse direction
         }
     }
 }
-
-const enemies = [
-    new Enemy(300, 470, 50, 50, './assets/sprites/enemy.png')
-];
