@@ -74,19 +74,19 @@ const keys = {
     d: false,
 };
 
-window.addEventListener('keydown', (e) => {
+window.addEventListener("keydown", (e) => {
     switch (e.code) {
-        case 'KeyW':
-        case 'Space':
+        case "KeyW":
+        case "Space":
             if (!keys.w) player.jump();
             keys.w = true;
             break;
-        case 'KeyA':
+        case "KeyA":
             keys.a = true;
             player.velocity.x = -player.speed;
             player.direction = "left"; // Update direction to left
             break;
-        case 'KeyD':
+        case "KeyD":
             keys.d = true;
             player.velocity.x = player.speed;
             player.direction = "right"; // Update direction to right
@@ -94,17 +94,17 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-window.addEventListener('keyup', (e) => {
+window.addEventListener("keyup", (e) => {
     switch (e.code) {
-        case 'KeyW':
-        case 'Space':
+        case "KeyW":
+        case "Space":
             keys.w = false;
             break;
-        case 'KeyA':
+        case "KeyA":
             keys.a = false;
             if (!keys.d) player.velocity.x = 0;
             break;
-        case 'KeyD':
+        case "KeyD":
             keys.d = false;
             if (!keys.a) player.velocity.x = 0;
             break;
