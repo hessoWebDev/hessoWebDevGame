@@ -10,10 +10,22 @@ class Player {
         this.isJumping = false;
         this.gravity = 0.5;
         this.speed = 5;
+        this.direction = "right"; // Default direction
     }
 
     draw(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        ctx.save();
+
+        // Flip the canvas horizontally if facing left
+        if (this.direction === "left") {
+            ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        } else {
+            ctx.translate(this.x + this.width, this.y);
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.sprite, 0, 0, this.width, this.height);
+        }
+
+        ctx.restore();
     }
 
     update(platforms) {
@@ -26,10 +38,12 @@ class Player {
 
         // Collision with platforms
         platforms.forEach((platform) => {
-            if (this.y + this.height >= platform.y &&
+            if (
+                this.y + this.height >= platform.y &&
                 this.y + this.height <= platform.y + platform.height &&
                 this.x + this.width >= platform.x &&
-                this.x <= platform.x + platform.width) {
+                this.x <= platform.x + platform.width
+            ) {
                 this.isJumping = false;
                 this.y = platform.y - this.height;
                 this.velocity.y = 0;
@@ -52,6 +66,7 @@ class Player {
     }
 }
 
+
 // Player controls
 const keys = {
     w: false,
@@ -69,10 +84,12 @@ window.addEventListener('keydown', (e) => {
         case 'KeyA':
             keys.a = true;
             player.velocity.x = -player.speed;
+            player.direction = "left"; // Update direction to left
             break;
         case 'KeyD':
             keys.d = true;
             player.velocity.x = player.speed;
+            player.direction = "right"; // Update direction to right
             break;
     }
 });
@@ -93,3 +110,4 @@ window.addEventListener('keyup', (e) => {
             break;
     }
 });
+
