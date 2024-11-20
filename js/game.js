@@ -18,7 +18,7 @@ const platforms = [
     new Platform(400, 400, 200, 20, './assets/sprites/platform.png'),
 ];
 const enemies = [
-    new Enemy(600, 470, 50, 50, './assets/sprites/enemy.png'),
+    new Enemy(600, 550, 50, 50, './assets/sprites/enemy.png'),
 ];
 const level = new Level(platforms, enemies);
 const camera = new Camera(player, canvas);
