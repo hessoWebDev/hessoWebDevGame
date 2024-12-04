@@ -34,7 +34,7 @@ function loadLevels() {
                 { x: 400, y: 400, width: 200, height: 20 },
                 { x: 700, y: 300, width: 100, height: 20 },
             ],
-            enemies: [{ x: 600, y: 470, width: 50, height: 50 }],
+            enemies: [{ x: 600, y: 470, width: 50, height: 50, speed: 1, moveDistance: 200 }],
         },
         {
             start: { x: 100, y: canvas.height - 150 },
@@ -45,8 +45,8 @@ function loadLevels() {
                 { x: 500, y: 400, width: 150, height: 20 },
             ],
             enemies: [
-                { x: 400, y: 470, width: 50, height: 50 },
-                { x: 600, y: 470, width: 50, height: 50 },
+                { x: 400, y: 470, width: 50, height: 50, speed: 2, moveDistance: 200 },
+                { x: 600, y: 470, width: 50, height: 50, speed: 2, moveDistance: 200 },
             ],
         },
     ];
@@ -61,7 +61,7 @@ function initLevel(levelNumber) {
         (p) => new Platform(p.x, p.y, p.width, p.height, './assets/sprites/platform.png')
     );
     enemies = levelConfig.enemies.map(
-        (e) => new Enemy(e.x, e.y, e.width, e.height, './assets/sprites/enemy.png')
+        (e) => new Enemy(e.x, e.y, e.width, e.height, './assets/sprites/enemy.png', e.speed, e.moveDistance)
     );
     camera = new Camera(player, canvas);
 }
@@ -163,6 +163,9 @@ function startGame() {
             }
             initLevel(currentLevel); // Load the next level
         }
+
+        //Update enemy before drawing
+        enemies.forEach((enemy) => enemy.update(deltaTime));
 
         // Draw platforms and enemies
         platforms.forEach((platform) => platform.draw(ctx, camera));
