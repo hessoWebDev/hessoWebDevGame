@@ -28,7 +28,7 @@ function loadLevels() {
     levels = [
         {
             start: { x: 100, y: canvas.height - 150 },
-            end: { x: 700, y: 400 },
+            end: { x: 4000, y: 400 },
             platforms: [
                 { x: 100, y: 500, width: 200, height: 20 },
                 { x: 400, y: 400, width: 200, height: 20 },
@@ -38,7 +38,7 @@ function loadLevels() {
         },
         {
             start: { x: 100, y: canvas.height - 150 },
-            end: { x: 700, y: 200 },
+            end: { x: 4000, y: 200 },
             platforms: [
                 { x: 100, y: 500, width: 150, height: 20 },
                 { x: 300, y: 450, width: 150, height: 20 },
