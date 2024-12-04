@@ -33,8 +33,8 @@ class Player {
         this.velocity.y += this.gravity;
         this.y += this.velocity.y;
 
-        // Horizontal movement
-        this.x += this.velocity.x;
+         // Prevent the player from running left out of the screen
+         this.x = Math.max(0, this.x + this.velocity.x);
 
         // Collision with platforms
         platforms.forEach((platform) => {
