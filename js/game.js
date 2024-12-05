@@ -64,7 +64,11 @@ function loadLevels() {
 function initLevel(levelNumber) {
     const levelConfig = levels[levelNumber - 1];
 
-    player = new Player(levelConfig.start.x, levelConfig.start.y, 50, 50, './assets/sprites/character1.png');
+    player = new Player(levelConfig.start.x, levelConfig.start.y, 50, 50, [
+        './assets/sprites/character1.png',
+        './assets/sprites/character2.png',
+        './assets/sprites/character3.png',
+    ]);
     platforms = levelConfig.platforms.map(
         (p) => new Platform(p.x, p.y, p.width, p.height, './assets/sprites/platform.png')
     );
@@ -73,6 +77,7 @@ function initLevel(levelNumber) {
     );
     camera = new Camera(player, canvas);
 }
+
 
 // Draw Scrolling Background
 const backgroundWidth = canvas.width; // Cache the width
@@ -137,28 +142,27 @@ function startGame() {
     function gameLoop(timestamp) {
         const deltaTime = timestamp - lastTime;
         lastTime = timestamp;
-
-        // Clear the canvas
+    
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
         // Draw the scrolling background
         drawBackground(ctx, camera);
-
+    
         // Display Level Number
         displayLevelNumber();
-
+    
         // Update the camera
         camera.update();
-
+    
         // Update player and level objects
-        player.update(platforms); // Update the player's state
-
+        player.update(platforms, deltaTime); // Pass deltaTime to player update
+    
         // Check for Game Over conditions
         if (player.y > canvas.height || enemies.some((e) => detectCollision(player, e))) {
             gameOver();
             return;
         }
-
+    
         // Check for Level Completion
         const levelEnd = levels[currentLevel - 1].end;
         if (player.x > levelEnd.x && player.y > levelEnd.y) {
@@ -171,23 +175,22 @@ function startGame() {
             }
             initLevel(currentLevel); // Load the next level
         }
-
-        //Update enemy before drawing
+    
+        // Update enemies
         enemies.forEach((enemy) => enemy.update(deltaTime));
-
+    
         // Draw platforms and enemies
         platforms.forEach((platform) => platform.draw(ctx, camera));
         enemies.forEach((enemy) => enemy.draw(ctx, camera));
-
+    
         // Draw the player
         ctx.save();
         ctx.translate(-camera.offsetX, 0);
         player.draw(ctx, camera); // Pass the camera to adjust the player's position
         ctx.restore();
-
-        // Store the animation frame ID for later cancellation
+    
         animationFrameId = requestAnimationFrame(gameLoop);
-    }
+    }    
 
     animationFrameId = requestAnimationFrame(gameLoop);
 }
