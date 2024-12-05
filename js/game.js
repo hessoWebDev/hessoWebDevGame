@@ -30,31 +30,42 @@ function loadLevels() {
             start: { x: 100, y: canvas.height - 150 },
             end: { x: 4000, y: 400 },
             platforms: [
-                { x: 100, y: 500, width: 200, height: 20 },
-                { x: 400, y: 400, width: 200, height: 20 },
-                { x: 700, y: 300, width: 100, height: 20 },
-                { x: 900, y: 300, width: 200, height: 20 },
-                { x: 1200, y: 300, width: 200, height: 20 },
-                { x: 1500, y: 300, width: 200, height: 20 },
-                { x: 1800, y: 300, width: 200, height: 20 },
-                { x: 2100, y: 300, width: 200, height: 20 },
-                { x: 2400, y: 300, width: 200, height: 20 },
-                { x: 2700, y: 300, width: 800, height: 20 },
-                { x: 3600, y: 300, width: 400, height: 20 },
+                { x: 100, y: 500, width: 200, height: 20, type: "metal" },
+                { x: 400, y: 400, width: 200, height: 20, type: "default" },
+                { x: 700, y: 300, width: 100, height: 20, type: "default" },
+                { x: 900, y: 300, width: 200, height: 20, type: "default" },
+                { x: 1200, y: 300, width: 200, height: 20, type: "default" },
+                { x: 1500, y: 300, width: 200, height: 20, type: "default" },
+                { x: 1800, y: 300, width: 200, height: 20, type: "default" },
+                { x: 2100, y: 300, width: 200, height: 20, type: "default" },
+                { x: 2400, y: 300, width: 200, height: 20, type: "default" },
+                { x: 2700, y: 300, width: 800, height: 20, type: "default" },
+                { x: 3600, y: 300, width: 400, height: 20, type: "default" },
             ],
-            enemies: [{ x: 400, y: 350, width: 50, height: 50, speed: 1, moveDistance: 150 }],
+            enemies: [
+                { x: 400, y: 350, width: 50, height: 50, speed: 1, moveDistance: 150, type: "robot" },
+                { x: 895, y: 210, width: 100, height: 100, speed: 1, moveDistance: 120, type: "greenMonster" },
+            ],
         },
         {
             start: { x: 100, y: canvas.height - 150 },
-            end: { x: 4000, y: 200 },
+            end: { x: 4000, y: 400 },
             platforms: [
-                { x: 100, y: 500, width: 150, height: 20 },
-                { x: 300, y: 450, width: 150, height: 20 },
-                { x: 500, y: 400, width: 150, height: 20 },
+                { x: 100, y: 500, width: 200, height: 20, type: "metal" },
+                { x: 400, y: 400, width: 200, height: 20, type: "default" },
+                { x: 700, y: 300, width: 100, height: 20, type: "default" },
+                { x: 900, y: 300, width: 200, height: 20, type: "default" },
+                { x: 1200, y: 300, width: 200, height: 20, type: "default" },
+                { x: 1500, y: 300, width: 200, height: 20, type: "default" },
+                { x: 1800, y: 300, width: 200, height: 20, type: "default" },
+                { x: 2100, y: 300, width: 200, height: 20, type: "default" },
+                { x: 2400, y: 300, width: 200, height: 20, type: "default" },
+                { x: 2700, y: 300, width: 800, height: 20, type: "default" },
+                { x: 3600, y: 300, width: 400, height: 20, type: "default" },
             ],
             enemies: [
-                { x: 400, y: 470, width: 50, height: 50, speed: 2, moveDistance: 200 },
-                { x: 600, y: 470, width: 50, height: 50, speed: 2, moveDistance: 200 },
+                { x: 400, y: 350, width: 50, height: 50, speed: 1, moveDistance: 150, type: "robot" },
+                { x: 895, y: 210, width: 100, height: 100, speed: 1, moveDistance: 120, type: "greenMonster" },
             ],
         },
     ];
@@ -70,10 +81,10 @@ function initLevel(levelNumber) {
         './assets/sprites/character3.png',
     ]);
     platforms = levelConfig.platforms.map(
-        (p) => new Platform(p.x, p.y, p.width, p.height, './assets/sprites/platform.png')
+        (p) => new Platform(p.x, p.y, p.width, p.height, p.type)
     );
     enemies = levelConfig.enemies.map(
-        (e) => new Enemy(e.x, e.y, e.width, e.height, './assets/sprites/enemy.png', e.speed, e.moveDistance)
+        (e) => new Enemy(e.x, e.y, e.width, e.height, e.speed, e.moveDistance, e.type)
     );
     camera = new Camera(player, canvas);
 }

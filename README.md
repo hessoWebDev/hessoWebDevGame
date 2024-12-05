@@ -11,7 +11,6 @@ Players must guide the astronaut through various levels, aiming to reach the bas
 ## Gameplay
 
 - **Controls**: Players can walk and jump.
-- **Progression**: As players pass certain points in the level, they acquire checkpoints where they will respawn if they die.
 - **Hazards**: If the astronaut touches an enemy or dangerous object or falls into the void, they lose a life.
 - **Victory**: Reaching the end of a level on the designated machine allows the player to advance.
 - **Combat**: Enemies can be defeated by jumping on them.
@@ -44,7 +43,6 @@ Players must guide the astronaut through various levels, aiming to reach the bas
 ## Rules
 
 - Walk and jump to navigate through levels.
-- Passing checkpoints saves progress.
 - Avoid or defeat enemies by jumping on them.
 - Reach the end of each level to proceed.
 
