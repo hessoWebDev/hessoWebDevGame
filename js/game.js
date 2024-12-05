@@ -33,8 +33,16 @@ function loadLevels() {
                 { x: 100, y: 500, width: 200, height: 20 },
                 { x: 400, y: 400, width: 200, height: 20 },
                 { x: 700, y: 300, width: 100, height: 20 },
+                { x: 900, y: 300, width: 200, height: 20 },
+                { x: 1200, y: 300, width: 200, height: 20 },
+                { x: 1500, y: 300, width: 200, height: 20 },
+                { x: 1800, y: 300, width: 200, height: 20 },
+                { x: 2100, y: 300, width: 200, height: 20 },
+                { x: 2400, y: 300, width: 200, height: 20 },
+                { x: 2700, y: 300, width: 800, height: 20 },
+                { x: 3600, y: 300, width: 400, height: 20 },
             ],
-            enemies: [{ x: 600, y: 470, width: 50, height: 50, speed: 1, moveDistance: 200 }],
+            enemies: [{ x: 400, y: 350, width: 50, height: 50, speed: 1, moveDistance: 150 }],
         },
         {
             start: { x: 100, y: canvas.height - 150 },
@@ -56,7 +64,7 @@ function loadLevels() {
 function initLevel(levelNumber) {
     const levelConfig = levels[levelNumber - 1];
 
-    player = new Player(levelConfig.start.x, levelConfig.start.y, 50, 50, './assets/sprites/character.png');
+    player = new Player(levelConfig.start.x, levelConfig.start.y, 50, 50, './assets/sprites/character1.png');
     platforms = levelConfig.platforms.map(
         (p) => new Platform(p.x, p.y, p.width, p.height, './assets/sprites/platform.png')
     );

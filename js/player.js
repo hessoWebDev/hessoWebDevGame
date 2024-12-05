@@ -39,6 +39,7 @@ class Player {
         // Collision with platforms
         platforms.forEach((platform) => {
             if (
+                this.velocity.y > 0 && // Falling
                 this.y + this.height >= platform.y &&
                 this.y + this.height <= platform.y + platform.height &&
                 this.x + this.width >= platform.x &&
@@ -50,12 +51,6 @@ class Player {
             }
         });
 
-        // Stop the player at ground level
-        if (this.y + this.height >= canvas.height) {
-            this.y = canvas.height - this.height;
-            this.isJumping = false;
-            this.velocity.y = 0;
-        }
     }
 
     jump() {
