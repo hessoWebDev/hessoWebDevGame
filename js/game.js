@@ -7,6 +7,8 @@ const playButton = document.getElementById("playButton");
 const optionsButton = document.getElementById("optionsButton");
 const restartButton = document.getElementById("restartButton");
 const mainMenuButton = document.getElementById("mainMenuButton");
+const playAgainButton = document.getElementById("playAgainButton");
+const mainMenuCompleteButton = document.getElementById("mainMenuCompleteButton");
 
 // Set canvas dimensions
 canvas.width = 800;
@@ -116,6 +118,13 @@ function displayLevelNumber() {
     ctx.fillText(`Level: ${currentLevel}`, 10, 30);
 }
 
+function gameComplete() {
+    cancelAnimationFrame(animationFrameId); // Stop the game loop
+    const gameCompleteMenu = document.getElementById("gameCompleteMenu");
+    gameCompleteMenu.style.display = "flex"; // Show the Game Complete screen
+}
+
+
 // Handle Game Over
 function gameOver() {
     cancelAnimationFrame(animationFrameId); // Stop the game loop
@@ -144,6 +153,21 @@ playButton.addEventListener("click", () => {
 
 optionsButton.addEventListener("click", () => {
     alert("Options are not implemented yet!");
+});
+
+//play again
+playAgainButton.addEventListener("click", () => {
+    const gameCompleteMenu = document.getElementById("gameCompleteMenu");
+    gameCompleteMenu.style.display = "none"; // Hide the Game Complete screen
+    currentLevel = 1; // Restart from the first level
+    startGame(); // Start the game loop
+});
+
+mainMenuCompleteButton.addEventListener("click", () => {
+    const gameCompleteMenu = document.getElementById("gameCompleteMenu");
+    gameCompleteMenu.style.display = "none"; // Hide the Game Complete screen
+    mainMenu.style.display = "flex"; // Show the Main Menu
+    currentLevel = 1; // Reset levels
 });
 
 // Start the Game Loop
@@ -179,9 +203,7 @@ function startGame() {
         if (player.x > levelEnd.x && player.y > levelEnd.y) {
             currentLevel++;
             if (currentLevel > levels.length) {
-                alert("Congratulations! You completed all levels!");
-                currentLevel = 1; // Reset to the first level
-                mainMenu.style.display = "flex"; // Show the Main Menu
+                gameComplete();
                 return;
             }
             initLevel(currentLevel); // Load the next level
