@@ -40,11 +40,11 @@ class Player {
 
     update(platforms, deltaTime) {
         // Apply gravity
-        this.velocity.y += this.gravity;
-        this.y += this.velocity.y;
-
-        // Prevent the player from running left out of the screen
-        this.x = Math.max(0, this.x + this.velocity.x);
+        this.velocity.y += this.gravity * gameSpeed;
+        this.y += this.velocity.y * gameSpeed;
+    
+        // Horizontal movement
+        this.x = Math.max(0, this.x + this.velocity.x * gameSpeed);
 
         // Collision with platforms (only when falling)
         platforms.forEach((platform) => {
