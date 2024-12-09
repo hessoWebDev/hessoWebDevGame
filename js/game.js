@@ -27,7 +27,63 @@ let player, platforms, enemies, camera;
 let lastTime = 0;
 let animationFrameId; // Store the ID for requestAnimationFrame
 let gameSpeed = 1; // Default speed multiplier
+let elapsedSeconds = 0; // Time counter
+let timeInterval; // Interval for updating time
 
+// Fetch and Initialize Time
+function fetchAndInitializeTime() {
+    if (!navigator.geolocation) {
+        console.error("Geolocation is not supported by this browser.");
+        elapsedSeconds = 0; // Start from zero if location isn't available
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const { latitude, longitude } = position.coords;
+            const apiUrl = `https://api.ipgeolocation.io/timezone?apiKey=462a980efbda407eadc6415e020d0875&lat=${latitude}&long=${longitude}`;
+            fetch(apiUrl)
+                .then((response) => response.json())
+                .then((data) => {
+                    const [hours, minutes, seconds] = data.time_24.split(":").map(Number);
+                    elapsedSeconds = hours * 3600 + minutes * 60 + seconds; // Convert to total seconds
+                })
+                .catch((error) => {
+                    console.error("Failed to fetch time:", error);
+                    elapsedSeconds = 0; // Start from zero if API fails
+                });
+        },
+        (error) => {
+            console.error("Failed to get geolocation:", error.message);
+            elapsedSeconds = 0; // Start from zero if geolocation fails
+        }
+    );
+}
+
+// Start Time Counter
+function startTimeCounter() {
+    timeInterval = setInterval(() => {
+        elapsedSeconds++;
+    }, 1000); // Increment every second
+}
+
+// Stop Time Counter
+function stopTimeCounter() {
+    clearInterval(timeInterval);
+}
+
+// Display Elapsed Time
+function displayElapsedTime() {
+    const hours = Math.floor(elapsedSeconds / 3600).toString().padStart(2, "0");
+    const minutes = Math.floor((elapsedSeconds % 3600) / 60).toString().padStart(2, "0");
+    const seconds = (elapsedSeconds % 60).toString().padStart(2, "0");
+    const timeString = `${hours}:${minutes}:${seconds}`;
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "24px Arial";
+    ctx.textAlign = "right";
+    ctx.fillText(timeString, canvas.width - 10, 30); // Top-right corner
+}
 
 // Load Levels
 function loadLevels() {
@@ -119,19 +175,21 @@ function drawBackground(ctx, camera) {
 function displayLevelNumber() {
     ctx.fillStyle = "#fff";
     ctx.font = "24px Arial";
-    ctx.fillText(`Level: ${currentLevel}`, 10, 30);
+    ctx.fillText(`Level: ${currentLevel}`, 100, 30);
 }
 
+// Game Complete
 function gameComplete() {
     cancelAnimationFrame(animationFrameId); // Stop the game loop
+    stopTimeCounter(); // Stop time counter
     const gameCompleteMenu = document.getElementById("gameCompleteMenu");
     gameCompleteMenu.style.display = "flex"; // Show the Game Complete screen
 }
 
-
 // Handle Game Over
 function gameOver() {
     cancelAnimationFrame(animationFrameId); // Stop the game loop
+    stopTimeCounter(); // Stop time counter
     gameOverMenu.style.display = "flex"; // Show Game Over menu
 }
 
@@ -146,13 +204,16 @@ mainMenuButton.addEventListener("click", () => {
     gameOverMenu.style.display = "none"; // Hide Game Over menu
     mainMenu.style.display = "flex"; // Show Main Menu
     currentLevel = 1; // Reset levels
+    stopTimeCounter(); // Stop time counter
 });
 
 // Handle Menu Button Clicks
 playButton.addEventListener("click", () => {
     mainMenu.style.display = "none"; // Hide Main Menu
     canvas.style.display = "block"; // Show the game canvas
-    startGame(); // Start the game loop
+    fetchAndInitializeTime(); // Fetch the time
+    startTimeCounter(); // Start time counter
+    startGame();
 });
 
 optionsButton.addEventListener("click", () => {
@@ -213,6 +274,9 @@ function startGame() {
     
         // Draw the scrolling background
         drawBackground(ctx, camera);
+
+        // Display elapsed time
+        displayElapsedTime();
     
         // Display Level Number
         displayLevelNumber();
