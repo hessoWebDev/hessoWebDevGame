@@ -11,24 +11,20 @@ Players must guide the astronaut through various levels, aiming to reach the bas
 ## Gameplay
 
 - **Controls**: Players can walk and jump.
-- **Hazards**: If the astronaut touches an enemy or dangerous object or falls into the void, they lose a life.
-- **Victory**: Reaching the end of a level on the designated machine allows the player to advance.
-- **Combat**: Enemies can be defeated by jumping on them.
+- **Hazards**: If the astronaut touches an enemy or dangerous object or falls into the void, they have to restart the level.
+- **Victory**: Reaching the end of a level allows the player to advance.
 
 ## Game Flow
 
-1. **Main Menu**: Players can start the game, view instructions, or adjust settings.
-2. **Level 1**: Introduces basic controls and a simple path.
-3. **Subsequent Levels**: Each new level adds complexity, including new enemies and obstacles.
-4. **Boss Level**: A challenging final stage with a unique boss enemy.
-5. **Game Over**: Displayed if the player loses all lives or completes all levels.
+1. **Main Menu**: Players can start the game or adjust settings.
+2. **Subsequent Levels**: Each new level adds complexity, including new enemies and obstacles.
+3. **Game Over**: Displayed if the player is hit by an enemy or falls into the void.
 
 ## Visual Elements
 
 - **Main Character**: The astronaut, an adventurous figure in a spacesuit.
-- **Enemies**: Hostile creatures such as flying bats, patrolling robots, and jumping slimes.
-- **Platforms**: Various types, including static, moving, and crumbling platforms.
-- **Traps**: Hazards like spikes and fireballs requiring precise timing to avoid.
+- **Enemies**: Hostile creatures such as flying bats or patrolling robots.
+- **Platforms**: Various types of platforms.
 
 ## Installation and Setup
 
@@ -38,12 +34,12 @@ Players must guide the astronaut through various levels, aiming to reach the bas
 ## Controls
 
 - **Arrow Keys** or **WASD**: Move and jump.
-- **Spacebar**: (If applicable, for any special action in future updates).
+- **Spacebar**: Also used for jumping.
 
 ## Rules
 
 - Walk and jump to navigate through levels.
-- Avoid or defeat enemies by jumping on them.
+- Avoid enemies with precise timing.
 - Reach the end of each level to proceed.
 
 
