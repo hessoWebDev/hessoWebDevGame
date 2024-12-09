@@ -90,37 +90,59 @@ const keys = {
 
 window.addEventListener("keydown", (e) => {
     switch (e.code) {
+        // Jump keys: W and ArrowUp
         case "KeyW":
+        case "ArrowUp":
         case "Space":
-            if (!keys.w) player.jump();
-            keys.w = true;
+            if (!keys.w && !keys.ArrowUp) player.jump();
+            keys.w = e.code === "KeyW";
+            keys.ArrowUp = e.code === "ArrowUp";
             break;
+
+        // Move left keys: A and ArrowLeft
         case "KeyA":
-            keys.a = true;
+        case "ArrowLeft":
+            if (e.code === "KeyA") keys.a = true;
+            if (e.code === "ArrowLeft") keys.ArrowLeft = true;
             player.velocity.x = -player.speed;
-            player.direction = "left"; // Update direction to left
+            player.direction = "left";
             break;
+
+        // Move right keys: D and ArrowRight
         case "KeyD":
-            keys.d = true;
+        case "ArrowRight":
+            if (e.code === "KeyD") keys.d = true;
+            if (e.code === "ArrowRight") keys.ArrowRight = true;
             player.velocity.x = player.speed;
-            player.direction = "right"; // Update direction to right
+            player.direction = "right";
             break;
     }
 });
 
 window.addEventListener("keyup", (e) => {
     switch (e.code) {
+        // Jump keys: W and ArrowUp
         case "KeyW":
+        case "ArrowUp":
         case "Space":
-            keys.w = false;
+            if (e.code === "KeyW") keys.w = false;
+            if (e.code === "ArrowUp") keys.ArrowUp = false;
             break;
+
+        // Move left keys: A and ArrowLeft
         case "KeyA":
-            keys.a = false;
-            if (!keys.d) player.velocity.x = 0;
+        case "ArrowLeft":
+            if (e.code === "KeyA") keys.a = false;
+            if (e.code === "ArrowLeft") keys.ArrowLeft = false;
+            if (!keys.d && !keys.ArrowRight) player.velocity.x = 0;
             break;
+
+        // Move right keys: D and ArrowRight
         case "KeyD":
-            keys.d = false;
-            if (!keys.a) player.velocity.x = 0;
+        case "ArrowRight":
+            if (e.code === "KeyD") keys.d = false;
+            if (e.code === "ArrowRight") keys.ArrowRight = false;
+            if (!keys.a && !keys.ArrowLeft) player.velocity.x = 0;
             break;
     }
 });
