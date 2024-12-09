@@ -29,6 +29,23 @@
         <button id="mainMenuCompleteButton">Main Menu</button>
     </div>
 
+    <!-- Options Menu -->
+    <div id="optionsMenu" class="menu" style="display: none;">
+        <h1>Game Settings</h1>
+        <form id="settingsForm">
+            <label for="difficulty">Select Difficulty:</label>
+            <select id="difficulty" name="difficulty" required>
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <button type="submit" id="saveSettingsButton">Save</button>
+        </form>
+        <button id="backToMenuButton">Back to Main Menu</button>
+    </div>
+
+
+
 
     <!-- Game Canvas -->
     <canvas id="gameCanvas"></canvas>

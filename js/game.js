@@ -9,6 +9,8 @@ const restartButton = document.getElementById("restartButton");
 const mainMenuButton = document.getElementById("mainMenuButton");
 const playAgainButton = document.getElementById("playAgainButton");
 const mainMenuCompleteButton = document.getElementById("mainMenuCompleteButton");
+const difficultySelect = document.getElementById("difficulty");
+const backToMenuButton = document.getElementById("backToMenuButton");
 
 // Set canvas dimensions
 canvas.width = 800;
@@ -24,6 +26,8 @@ let levels = [];
 let player, platforms, enemies, camera;
 let lastTime = 0;
 let animationFrameId; // Store the ID for requestAnimationFrame
+let gameSpeed = 1; // Default speed multiplier
+
 
 // Load Levels
 function loadLevels() {
@@ -152,7 +156,8 @@ playButton.addEventListener("click", () => {
 });
 
 optionsButton.addEventListener("click", () => {
-    alert("Options are not implemented yet!");
+    mainMenu.style.display = "none"; // Hide Main Menu
+    optionsMenu.style.display = "flex"; // Show Options Menu
 });
 
 //play again
@@ -170,12 +175,38 @@ mainMenuCompleteButton.addEventListener("click", () => {
     currentLevel = 1; // Reset levels
 });
 
+// Back to Main Menu Button in Options Menu
+backToMenuButton.addEventListener("click", () => {
+    optionsMenu.style.display = "none"; // Hide Options Menu
+    mainMenu.style.display = "flex"; // Show Main Menu
+});
+
+
+//Game difficulty
+document.getElementById("settingsForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    // Set game speed based on difficulty
+    const selectedDifficulty = difficultySelect.value;
+    if (selectedDifficulty === "easy") {
+        gameSpeed = 0.75; // Slowest speed
+    } else if (selectedDifficulty === "medium") {
+        gameSpeed = 1; // Default speed
+    } else if (selectedDifficulty === "hard") {
+        gameSpeed = 1.5; // Fastest speed
+    }
+
+    alert(`Settings Saved! Difficulty set to ${selectedDifficulty}`);
+    optionsMenu.style.display = "none"; // Hide Options Menu
+    mainMenu.style.display = "flex"; // Show Main Menu
+});
+
 // Start the Game Loop
 function startGame() {
     initLevel(currentLevel);
 
     function gameLoop(timestamp) {
-        const deltaTime = timestamp - lastTime;
+        const deltaTime = (timestamp - lastTime) * gameSpeed; // Adjust timing
         lastTime = timestamp;
     
         ctx.clearRect(0, 0, canvas.width, canvas.height);

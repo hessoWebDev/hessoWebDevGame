@@ -22,10 +22,10 @@ class Enemy {
     }
 
     update(deltaTime) {
-        // Move the enemy
-        this.x += this.velocity.x;
-        this.travelled += Math.abs(this.velocity.x);
-
+        // Move the enemy with game speed
+        this.x += this.velocity.x * gameSpeed;
+        this.travelled += Math.abs(this.velocity.x * gameSpeed);
+    
         // Reverse direction if the enemy exceeds its movement range
         if (this.travelled >= this.moveDistance) {
             this.velocity.x *= -1; // Reverse direction

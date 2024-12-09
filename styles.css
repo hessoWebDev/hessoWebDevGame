@@ -134,3 +134,70 @@ body {
 #gameCompleteMenu button:hover {
     background-color: #666;
 }
+
+/* Options Menu Styling */
+#optionsMenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 20;
+}
+
+#optionsMenu h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+#optionsMenu form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #222;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+    width:132px;
+}
+
+#optionsMenu label {
+    margin-bottom: 5px;
+}
+
+#optionsMenu select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+#optionsMenu select:hover {
+    background-color: #444;
+}
+
+#optionsMenu button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#optionsMenu button:hover {
+    background-color: #666;
+}
