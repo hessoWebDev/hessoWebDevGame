@@ -42,6 +42,25 @@ playButton.addEventListener("click", () => {
   startGame();
 });
 
+// Mute
+const muteButton = document.getElementById("muteButton");
+let isMuted = false;
+
+muteButton.addEventListener("click", () => {
+  isMuted = !isMuted;
+
+  // Gérer le mute du son de fond (global)
+  backgroundMusic.muted = isMuted;
+
+  // Gérer le mute du son de saut via le joueur
+  if (player && player.jumpSound) {
+    player.jumpSound.muted = isMuted;
+  }
+
+  // Mise à jour du texte du bouton
+  muteButton.textContent = isMuted ? "Unmute" : "Mute";
+});
+
 // Load Levels
 function loadLevels() {
   levels = [
