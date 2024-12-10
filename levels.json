@@ -61,10 +61,10 @@
       ]
     },
     {
-      "start": { "x": 100, "y": 450 },
+      "start": { "x": 100, "y": 150 },
       "end": { "x": 4000, "y": 400 },
       "platforms": [
-        { "x": 100, "y": 500, "width": 200, "height": 20, "type": "metal" },
+        { "x": 100, "y": 200, "width": 200, "height": 30, "type": "copper" },
         { "x": 400, "y": 400, "width": 200, "height": 20, "type": "default" },
         { "x": 700, "y": 300, "width": 100, "height": 20, "type": "default" },
         { "x": 900, "y": 300, "width": 200, "height": 20, "type": "default" },
