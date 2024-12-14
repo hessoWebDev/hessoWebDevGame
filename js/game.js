@@ -107,83 +107,6 @@ function loadLevels() {
   loadLevelsFromJSON("./levels.json").then((loadedLevels) => {
     levels = loadedLevels;
   });
-
-  /*levels = [
-    {
-      start: { x: 100, y: canvas.height - 150 },
-      end: { x: 4000, y: 400 },
-      platforms: [
-        { x: 100, y: 500, width: 200, height: 20, type: "metal" },
-        { x: 400, y: 400, width: 200, height: 20, type: "default" },
-        { x: 700, y: 300, width: 100, height: 20, type: "default" },
-        { x: 900, y: 300, width: 200, height: 20, type: "default" },
-        { x: 1200, y: 300, width: 200, height: 20, type: "default" },
-        { x: 1500, y: 300, width: 200, height: 20, type: "default" },
-        { x: 1800, y: 300, width: 200, height: 20, type: "default" },
-        { x: 2100, y: 300, width: 200, height: 20, type: "default" },
-        { x: 2400, y: 300, width: 200, height: 20, type: "default" },
-        { x: 2700, y: 300, width: 800, height: 20, type: "default" },
-        { x: 3600, y: 300, width: 400, height: 20, type: "default" },
-      ],
-      enemies: [
-        {
-          x: 400,
-          y: 350,
-          width: 50,
-          height: 50,
-          speed: 1,
-          moveDistance: 150,
-          type: "robot",
-        },
-        {
-          x: 895,
-          y: 210,
-          width: 100,
-          height: 100,
-          speed: 1,
-          moveDistance: 120,
-          type: "greenMonster",
-        },
-      ],
-    },
-    {
-      start: { x: 100, y: canvas.height - 150 },
-      end: { x: 4000, y: 400 },
-      platforms: [
-        { x: 100, y: 500, width: 200, height: 20, type: "metal" },
-        { x: 400, y: 400, width: 200, height: 20, type: "default" },
-        { x: 700, y: 300, width: 100, height: 20, type: "default" },
-        { x: 900, y: 300, width: 200, height: 20, type: "default" },
-        { x: 1200, y: 300, width: 200, height: 20, type: "default" },
-        { x: 1500, y: 300, width: 200, height: 20, type: "default" },
-        { x: 1800, y: 300, width: 200, height: 20, type: "default" },
-        { x: 2100, y: 300, width: 200, height: 20, type: "default" },
-        { x: 2400, y: 300, width: 200, height: 20, type: "default" },
-        { x: 2700, y: 300, width: 800, height: 20, type: "default" },
-        { x: 3600, y: 300, width: 400, height: 20, type: "default" },
-      ],
-      enemies: [
-        {
-          x: 400,
-          y: 350,
-          width: 50,
-          height: 50,
-          speed: 1,
-          moveDistance: 150,
-          type: "robot",
-        },
-        {
-          x: 895,
-          y: 210,
-          width: 100,
-          height: 100,
-          speed: 1,
-          moveDistance: 120,
-          type: "greenMonster",
-        },
-      ],
-    },
-  ];    */
 }
 
 // Initialize Level
@@ -363,7 +286,7 @@ function startGame() {
     // Check for Game Over conditions
     if (
       player.y > canvas.height ||
-      enemies.some((e) => detectCollision(player, e))
+      enemies.some((e) => detectEnemyCollision(player, e))
     ) {
       gameOver();
       return;
