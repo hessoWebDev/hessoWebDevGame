@@ -19,7 +19,7 @@ class Enemy {
     this.moveDistance = moveDistance; // Total distance to move
     this.travelled = 0; // Distance travelled so far
 
-    this.debug = true; // To check the hitboxes of ennemies
+    this.debug = false; // To check the hitboxes of ennemies
 
     if (type === "robot") {
       this.sprite.src = "./assets/sprites/robotEnemy.png";
