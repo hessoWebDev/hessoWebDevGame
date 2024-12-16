@@ -28,7 +28,7 @@ backgroundImage.src = "./assets/sprites/space_background.png";
 
 // Game Variables
 let globalGameTimer = 0; // Temps total en secondes
-let currentLevel = 4;
+let currentLevel = 1;
 let levels = [];
 let player, platforms, enemies, camera;
 let lastTime = 0;
@@ -376,13 +376,10 @@ function saveScore(playerName, scoreInSeconds) {
 
   leaderboard.push({ name: playerName, score: scoreInSeconds });
 
-  // Trier les scores du plus bas au plus élevé (meilleur temps en haut)
   leaderboard.sort((a, b) => a.score - b.score);
 
-  // Sauvegarde du leaderboard trié dans le localStorage
   localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
 
-  // Affichage du menu principal
   mainMenu.style.display = "flex";
   gameCompleteMenu.style.display = "none";
   currentLevel = 1;
@@ -409,7 +406,7 @@ function displayLeaderboard() {
   const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
   const leaderboardTable = document.getElementById("leaderboardTable");
 
-  leaderboardTable.innerHTML = ""; // Efface les anciennes données
+  leaderboardTable.innerHTML = "";
 
   // Affiche les scores triés
   leaderboard.forEach((entry, index) => {
@@ -418,9 +415,9 @@ function displayLeaderboard() {
     const nameCell = row.insertCell(1);
     const scoreCell = row.insertCell(2);
 
-    rankCell.innerText = index + 1; // Rang du joueur
-    nameCell.innerText = entry.name; // Nom du joueur
-    scoreCell.innerText = formatTime(entry.score); // Format du score en MM:SS
+    rankCell.innerText = index + 1;
+    nameCell.innerText = entry.name;
+    scoreCell.innerText = formatTime(entry.score);
   });
 }
 function formatTime(seconds) {
