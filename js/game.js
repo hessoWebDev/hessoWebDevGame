@@ -181,30 +181,27 @@ function displayLevelNumber() {
 }
 
 // Game Complete
-// Fonction pour gérer la fin du jeu avec succès
-function gameComplete() {
-  cancelAnimationFrame(animationFrameId); // Arrêter la boucle de jeu
-  stopTimeCounter(); // Arrêter le compteur de temps
 
-  // Afficher le menu "Game Complete"
+function gameComplete() {
+  cancelAnimationFrame(animationFrameId);
+  stopTimeCounter();
+
   const gameCompleteMenu = document.getElementById("gameCompleteMenu");
   gameCompleteMenu.style.display = "flex";
 
-  // Ajouter un événement pour sauvegarder le score
   const saveScoreButton = document.getElementById("saveScoreButton");
   const playerNameInput = document.getElementById("playerName");
 
-  // Lorsque le joueur clique sur "Save Score", sauvegarder le score
   saveScoreButton.addEventListener("click", () => {
     const playerName = playerNameInput.value.trim();
     if (playerName) {
-      const score = Math.floor(globalGameTimer); // Utiliser le temps total comme score
-      saveScore(playerName, score); // Sauvegarder le score dans localStorage
-      alert("Score saved!"); // Informer le joueur que le score a été sauvegardé
-      gameCompleteMenu.style.display = "none"; // Masquer le menu "Game Complete"
-      showMainMenu(); // Revenir au menu principal
+      const score = Math.floor(globalGameTimer);
+      saveScore(playerName, score);
+      alert("Score saved!");
+      gameCompleteMenu.style.display = "none";
+      showMainMenu();
     } else {
-      alert("Please enter your name!"); // Si le nom n'est pas entré
+      alert("Please enter your name!");
     }
   });
 }
@@ -307,7 +304,7 @@ function startGame() {
     // Display Level Number
     displayLevelNumber();
 
-    displayGlobalTimer(); // Affiche le temps total sous le niveau
+    displayGlobalTimer();
 
     // Update the camera
     camera.update();
