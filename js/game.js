@@ -13,6 +13,10 @@ const mainMenuCompleteButton = document.getElementById(
 );
 const difficultySelect = document.getElementById("difficulty");
 const backToMenuButton = document.getElementById("backToMenuButton");
+const LeaderboardButton = document.getElementById("LeaderboardButton");
+const LeaderboardMainMenuButton = document.getElementById(
+  "backToMenuFromRanking"
+);
 
 // Set canvas dimensions
 canvas.width = 800;
@@ -23,7 +27,8 @@ const backgroundImage = new Image();
 backgroundImage.src = "./assets/sprites/space_background.png";
 
 // Game Variables
-let currentLevel = 1;
+let globalGameTimer = 0; // Temps total en secondes
+let currentLevel = 4;
 let levels = [];
 let player, platforms, enemies, camera;
 let lastTime = 0;
@@ -176,17 +181,40 @@ function displayLevelNumber() {
 }
 
 // Game Complete
+// Fonction pour gérer la fin du jeu avec succès
 function gameComplete() {
-  cancelAnimationFrame(animationFrameId); // Stop the game loop
-  stopTimeCounter(); // Stop time counter
+  cancelAnimationFrame(animationFrameId); // Arrêter la boucle de jeu
+  stopTimeCounter(); // Arrêter le compteur de temps
+
+  // Afficher le menu "Game Complete"
   const gameCompleteMenu = document.getElementById("gameCompleteMenu");
-  gameCompleteMenu.style.display = "flex"; // Show the Game Complete screen
+  gameCompleteMenu.style.display = "flex";
+
+  // Ajouter un événement pour sauvegarder le score
+  const saveScoreButton = document.getElementById("saveScoreButton");
+  const playerNameInput = document.getElementById("playerName");
+
+  // Lorsque le joueur clique sur "Save Score", sauvegarder le score
+  saveScoreButton.addEventListener("click", () => {
+    const playerName = playerNameInput.value.trim();
+    if (playerName) {
+      const score = Math.floor(globalGameTimer); // Utiliser le temps total comme score
+      saveScore(playerName, score); // Sauvegarder le score dans localStorage
+      alert("Score saved!"); // Informer le joueur que le score a été sauvegardé
+      gameCompleteMenu.style.display = "none"; // Masquer le menu "Game Complete"
+      showMainMenu(); // Revenir au menu principal
+    } else {
+      alert("Please enter your name!"); // Si le nom n'est pas entré
+    }
+  });
 }
 
 // Handle Game Over
 function gameOver() {
   cancelAnimationFrame(animationFrameId); // Stop the game loop
   stopTimeCounter(); // Stop time counter
+
+  globalGameTimer = 0;
   gameOverMenu.style.display = "flex"; // Show Game Over menu
 }
 
@@ -266,6 +294,8 @@ function startGame() {
     const deltaTime = (timestamp - lastTime) * gameSpeed; // Adjust timing
     lastTime = timestamp;
 
+    globalGameTimer += deltaTime / 1000;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw the scrolling background
@@ -276,6 +306,8 @@ function startGame() {
 
     // Display Level Number
     displayLevelNumber();
+
+    displayGlobalTimer(); // Affiche le temps total sous le niveau
 
     // Update the camera
     camera.update();
@@ -324,3 +356,77 @@ function startGame() {
 
 // Load levels and start the game
 loadLevels();
+
+function displayGlobalTimer() {
+  const seconds = Math.floor(globalGameTimer % 60)
+    .toString()
+    .padStart(2, "0");
+  const minutes = Math.floor(globalGameTimer / 60)
+    .toString()
+    .padStart(2, "0");
+  const timerString = `${minutes}:${seconds}`;
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "24px Arial";
+  ctx.fillText(timerString, 90, 60);
+}
+
+function saveScore(playerName, scoreInSeconds) {
+  let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+  leaderboard.push({ name: playerName, score: scoreInSeconds });
+
+  // Trier les scores du plus bas au plus élevé (meilleur temps en haut)
+  leaderboard.sort((a, b) => a.score - b.score);
+
+  // Sauvegarde du leaderboard trié dans le localStorage
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+  // Affichage du menu principal
+  mainMenu.style.display = "flex";
+  gameCompleteMenu.style.display = "none";
+  currentLevel = 1;
+}
+
+function showleaderboard() {
+  const leaderboardmenu = document.getElementById("rankingMenu");
+  leaderboardmenu.style.display = "flex";
+  displayLeaderboard();
+}
+
+LeaderboardButton.addEventListener("click", () => {
+  showleaderboard();
+  mainMenu.style.display = "none";
+});
+
+LeaderboardMainMenuButton.addEventListener("click", () => {
+  const LeaderboardMenu = document.getElementById("rankingMenu");
+  LeaderboardMenu.style.display = "none";
+  mainMenu.style.display = "flex"; // Show the Main Menu
+});
+
+function displayLeaderboard() {
+  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+  const leaderboardTable = document.getElementById("leaderboardTable");
+
+  leaderboardTable.innerHTML = ""; // Efface les anciennes données
+
+  // Affiche les scores triés
+  leaderboard.forEach((entry, index) => {
+    const row = leaderboardTable.insertRow();
+    const rankCell = row.insertCell(0);
+    const nameCell = row.insertCell(1);
+    const scoreCell = row.insertCell(2);
+
+    rankCell.innerText = index + 1; // Rang du joueur
+    nameCell.innerText = entry.name; // Nom du joueur
+    scoreCell.innerText = formatTime(entry.score); // Format du score en MM:SS
+  });
+}
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, "0");
+  const remainingSeconds = (seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${remainingSeconds}`;
+}

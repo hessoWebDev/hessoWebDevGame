@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JumpQuest</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <!-- Main Menu -->
     <div id="mainMenu" class="menu">
-        <h1>JumpQuest</h1>
-        <button id="playButton">Play</button>
-        <button id="optionsButton">Options</button>
+      <h1>JumpQuest</h1>
+      <button id="playButton">Play</button>
+      <button id="optionsButton">Options</button>
+      <button id="LeaderboardButton">Leaderboard</button>
+    </div>
+
+    <!-- Menu Leaderboard -->
+    <div id="rankingMenu" style="display: none">
+      <h2>Leaderboard</h2>
+      <table id="leaderboardTable">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Les lignes seront insérées ici par JavaScript -->
+        </tbody>
+      </table>
+      <button id="backToMenuFromRanking">Back to the Main Menu</button>
     </div>
 
     <!-- Game Over Menu -->
-    <div id="gameOverMenu" class="menu" style="display: none;">
-        <h1>Game Over</h1>
-        <button id="restartButton">Restart</button>
-        <button id="mainMenuButton">Main Menu</button>
+    <div id="gameOverMenu" class="menu" style="display: none">
+      <h1>Game Over</h1>
+      <button id="restartButton">Restart</button>
+      <button id="mainMenuButton">Main Menu</button>
     </div>
 
     <!-- Game Complete Menu -->
-    <div id="gameCompleteMenu" class="menu" style="display: none;">
-        <h1>Congratulations!</h1>
-        <p>You completed all levels!</p>
-        <button id="playAgainButton">Play Again</button>
-        <button id="mainMenuCompleteButton">Main Menu</button>
+    <div id="gameCompleteMenu" class="menu" style="display: none">
+      <h1>Congratulations!</h1>
+      <p>You completed all levels!</p>
+      <p>Enter your name:</p>
+      <input type="text" id="playerName" placeholder="Your Name" />
+      <button id="saveScoreButton">Save Score</button>
+      <button id="playAgainButton">Play Again</button>
+      <button id="mainMenuCompleteButton">Main Menu</button>
     </div>
 
     <!-- Options Menu -->
-    <div id="optionsMenu" class="menu" style="display: none;">
-        <h1>Game Settings</h1>
-        <form id="settingsForm">
-            <label for="difficulty">Select Difficulty:</label>
-            <select id="difficulty" name="difficulty" required>
-                <option value="easy">Easy</option>
-                <option value="medium" selected>Medium</option>
-                <option value="hard">Hard</option>
-            </select>
-            <button type="submit" id="saveSettingsButton">Save</button>
-        </form>
-        <button id="backToMenuButton">Back to Main Menu</button>
+    <div id="optionsMenu" class="menu" style="display: none">
+      <h1>Game Settings</h1>
+      <form id="settingsForm">
+        <label for="difficulty">Select Difficulty:</label>
+        <select id="difficulty" name="difficulty" required>
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button type="submit" id="saveSettingsButton">Save</button>
+      </form>
+      <button id="backToMenuButton">Back to Main Menu</button>
     </div>
-
-
-
 
     <!-- Game Canvas -->
     <canvas id="gameCanvas"></canvas>
@@ -58,5 +76,5 @@
     <script src="js/level.js"></script>
     <script src="js/camera.js"></script>
     <script src="js/game.js"></script>
-</body>
+  </body>
 </html>
