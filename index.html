@@ -12,6 +12,7 @@
       <h1>JumpQuest</h1>
       <button id="playButton">Play</button>
       <button id="optionsButton">Options</button>
+      <button id="avatarButton">Avatar</button>
     </div>
 
     <!-- Game Over Menu -->
@@ -19,6 +20,41 @@
       <h1>Game Over</h1>
       <button id="restartButton">Restart</button>
       <button id="mainMenuButton">Main Menu</button>
+    </div>
+
+    <div id="avatarMenu" class="menu" style="display: none">
+      <h1>Avatars</h1>
+      <p>Choose your favourite avatar !</p>
+
+      <div id="avatarsContainer" class="avatars">
+        <img
+          src="assets\sprites\character1.png"
+          alt="Character"
+          id="character"
+          class="draggable-avatar"
+          draggable="true"
+        />
+        <img
+          src="assets\sprites\rose1.png"
+          alt="Rose"
+          id="rose"
+          class="draggable-avatar"
+          draggable="true"
+        />
+        <img
+          src="assets\sprites\bleu1.png"
+          alt="Bleu"
+          id="bleu"
+          class="draggable-avatar"
+          draggable="true"
+        />
+      </div>
+
+      <div id="dropZone" class="drop-zone">
+        <p>Drop your chosen avatar here</p>
+      </div>
+
+      <button id="confirmAvatarButton">Confirm</button>
     </div>
 
     <!-- Game Complete Menu -->
