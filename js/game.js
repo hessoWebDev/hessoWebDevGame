@@ -208,7 +208,7 @@ function initLevel(levelNumber) {
   );
   enemies = levelConfig.enemies.map(
     (e) =>
-      new Enemy(e.x, e.y, e.width, e.height, e.speed, e.moveDistance, e.type)
+      new Enemy(e.x, e.y, e.width, e.height, e.speed, e.moveDistance, e.type, e.direction)
   );
   camera = new Camera(player, canvas);
 }
