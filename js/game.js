@@ -13,6 +13,17 @@ const mainMenuCompleteButton = document.getElementById(
 );
 const difficultySelect = document.getElementById("difficulty");
 const backToMenuButton = document.getElementById("backToMenuButton");
+const avatarMenu = document.getElementById("avatarMenu");
+const avatarButton = document.getElementById("avatarButton");
+const confirmAvatarButton = document.getElementById("confirmAvatarButton");
+const dropZone = document.getElementById("dropZone");
+const draggableAvatars = document.querySelectorAll(".draggable-avatar");
+const avatarsContainer = document.getElementById("avatarsContainer");
+let selectedSprites = [
+  "./assets/sprites/character1.png", // by default
+  "./assets/sprites/character2.png",
+  "./assets/sprites/character3.png",
+];
 
 // Set canvas dimensions
 canvas.width = 800;
@@ -21,6 +32,50 @@ canvas.height = 600;
 // Background Image Setup
 const backgroundImage = new Image();
 backgroundImage.src = "./assets/sprites/space_background.png";
+
+let selectedAvatar = "character"; // Avatar by default
+
+draggableAvatars.forEach((avatar) => {
+  avatar.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", e.target.id);
+  });
+});
+
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault(); // Autorize the drop
+  dropZone.style.borderColor = "yellow";
+});
+
+dropZone.addEventListener("dragleave", () => {
+  dropZone.style.borderColor = "white";
+});
+
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  const avatarId = e.dataTransfer.getData("text/plain");
+  const droppedAvatar = document.getElementById(avatarId);
+
+  dropZone.innerHTML = "";
+  const img = document.createElement("img");
+  img.src = droppedAvatar.src;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  dropZone.appendChild(img);
+
+  selectedAvatar = avatarId;
+});
+
+confirmAvatarButton.addEventListener("click", () => {
+  selectedSprites = [
+    `./assets/sprites/${selectedAvatar}1.png`,
+    `./assets/sprites/${selectedAvatar}2.png`,
+    `./assets/sprites/${selectedAvatar}3.png`,
+  ];
+
+  alert("Avatar changed with succes !");
+  avatarMenu.style.display = "none";
+  mainMenu.style.display = "flex";
+});
 
 // Game Variables
 let currentLevel = 1;
@@ -102,6 +157,33 @@ function loadLevelsFromJSON(file) {
     });
 }
 
+// Background music
+const backgroundMusic = new Audio("./assets/Audio/background.mp3");
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.5; // Volume btw 0.0 and 1.0
+
+playButton.addEventListener("click", () => {
+  mainMenu.style.display = "none";
+  canvas.style.display = "block";
+  backgroundMusic.play();
+  startGame();
+});
+
+// Mute
+const muteButton = document.getElementById("muteButton");
+let isMuted = false;
+
+muteButton.addEventListener("click", () => {
+  isMuted = !isMuted;
+
+  backgroundMusic.muted = isMuted;
+
+  if (player && player.jumpSound) {
+    player.jumpSound.muted = isMuted;
+  }
+  muteButton.textContent = isMuted ? "Unmute" : "Mute";
+});
+
 // Load Levels
 function loadLevels() {
   loadLevelsFromJSON("./levels.json").then((loadedLevels) => {
@@ -113,26 +195,20 @@ function loadLevels() {
 function initLevel(levelNumber) {
   const levelConfig = levels[levelNumber - 1];
 
-  player = new Player(levelConfig.start.x, levelConfig.start.y, 50, 50, [
-    "./assets/sprites/character1.png",
-    "./assets/sprites/character2.png",
-    "./assets/sprites/character3.png",
-  ]);
+  player = new Player(
+    levelConfig.start.x,
+    levelConfig.start.y,
+    50,
+    50,
+    selectedSprites
+  );
+
   platforms = levelConfig.platforms.map(
     (p) => new Platform(p.x, p.y, p.width, p.height, p.type)
   );
   enemies = levelConfig.enemies.map(
     (e) =>
-      new Enemy(
-        e.x,
-        e.y,
-        e.width,
-        e.height,
-        e.speed,
-        e.moveDistance,
-        e.type,
-        e.direction
-      )
+      new Enemy(e.x, e.y, e.width, e.height, e.speed, e.moveDistance, e.type)
   );
   camera = new Camera(player, canvas);
 }
@@ -202,6 +278,8 @@ mainMenuButton.addEventListener("click", () => {
   mainMenu.style.display = "flex"; // Show Main Menu
   currentLevel = 1; // Reset levels
   stopTimeCounter(); // Stop time counter
+  backgroundMusic.pause(); // stop the music
+  backgroundMusic.currentTime = 0;
 });
 
 // Handle Menu Button Clicks
@@ -211,6 +289,11 @@ playButton.addEventListener("click", () => {
   fetchAndInitializeTime(); // Fetch the time
   startTimeCounter(); // Start time counter
   startGame();
+});
+
+avatarButton.addEventListener("click", () => {
+  mainMenu.style.display = "none";
+  avatarMenu.style.display = "flex";
 });
 
 optionsButton.addEventListener("click", () => {
