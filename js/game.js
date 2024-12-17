@@ -288,7 +288,6 @@ playButton.addEventListener("click", () => {
   canvas.style.display = "block"; // Show the game canvas
   fetchAndInitializeTime(); // Fetch the time
   startTimeCounter(); // Start time counter
-  startGame();
 });
 
 avatarButton.addEventListener("click", () => {
@@ -343,6 +342,7 @@ document.getElementById("settingsForm").addEventListener("submit", (event) => {
 
 // Start the Game Loop
 function startGame() {
+  console.log( gameSpeed );
   initLevel(currentLevel);
 
   function gameLoop(timestamp) {
