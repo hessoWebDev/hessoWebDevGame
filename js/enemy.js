@@ -75,7 +75,7 @@ class Enemy {
       );
 
       if (this.debug) {
-        // Debug : Dessiner les hitboxes
+        // Debug : draw hitboxes
         this.getGlobalHitboxes().forEach((hitbox) => {
           ctx.strokeStyle = "red";
           ctx.strokeRect(
@@ -96,7 +96,7 @@ class Enemy {
       );
 
       if (this.debug) {
-        // Debug : Dessiner les hitboxes
+        // Debug : draw hitboxes
         this.getGlobalHitboxes().forEach((hitbox) => {
           ctx.strokeStyle = "red";
           ctx.strokeRect(
