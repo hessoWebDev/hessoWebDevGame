@@ -199,6 +199,9 @@ function gameComplete() {
       saveScore(playerName, score);
       alert("Score saved!");
       gameCompleteMenu.style.display = "none";
+
+      globalGameTimer = 0;
+
       showMainMenu();
     } else {
       alert("Please enter your name!");
@@ -211,7 +214,6 @@ function gameOver() {
   cancelAnimationFrame(animationFrameId); // Stop the game loop
   stopTimeCounter(); // Stop time counter
 
-  globalGameTimer = 0;
   gameOverMenu.style.display = "flex"; // Show Game Over menu
 }
 
@@ -226,6 +228,7 @@ mainMenuButton.addEventListener("click", () => {
   gameOverMenu.style.display = "none"; // Hide Game Over menu
   mainMenu.style.display = "flex"; // Show Main Menu
   currentLevel = 1; // Reset levels
+  globalGameTimer = 0;
   stopTimeCounter(); // Stop time counter
 });
 
@@ -285,6 +288,8 @@ document.getElementById("settingsForm").addEventListener("submit", (event) => {
 
 // Start the Game Loop
 function startGame() {
+  globalGameTimer = 0;
+
   initLevel(currentLevel);
 
   function gameLoop(timestamp) {
@@ -371,7 +376,15 @@ function displayGlobalTimer() {
 function saveScore(playerName, scoreInSeconds) {
   let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
 
-  leaderboard.push({ name: playerName, score: scoreInSeconds });
+  const existingEntry = leaderboard.find((entry) => entry.name === playerName);
+
+  if (existingEntry) {
+    if (scoreInSeconds < existingEntry.score) {
+      existingEntry.score = scoreInSeconds;
+    }
+  } else {
+    leaderboard.push({ name: playerName, score: scoreInSeconds });
+  }
 
   leaderboard.sort((a, b) => a.score - b.score);
 

@@ -12,6 +12,22 @@
       <h1>JumpQuest</h1>
       <button id="playButton">Play</button>
       <button id="optionsButton">Options</button>
+      <button id="LeaderboardButton">Leaderboard</button>
+    </div>
+
+    <!-- Menu Leaderboard -->
+    <div id="rankingMenu" style="display: none">
+      <h2>Leaderboard</h2>
+      <table id="leaderboardTable">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button id="backToMenuFromRanking">Back to the Main Menu</button>
     </div>
 
     <!-- Game Over Menu -->
@@ -25,6 +41,9 @@
     <div id="gameCompleteMenu" class="menu" style="display: none">
       <h1>Congratulations!</h1>
       <p>You completed all levels!</p>
+      <p>Enter your name:</p>
+      <input type="text" id="playerName" placeholder="Your Name" />
+      <button id="saveScoreButton">Save Score</button>
       <button id="playAgainButton">Play Again</button>
       <button id="mainMenuCompleteButton">Main Menu</button>
     </div>
