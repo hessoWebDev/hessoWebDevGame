@@ -33,6 +33,8 @@ canvas.height = 600;
 const backgroundImage = new Image();
 backgroundImage.src = "./assets/sprites/space_background.png";
 
+//DRAG N DROP
+
 let selectedAvatar = "character"; // Avatar by default
 
 draggableAvatars.forEach((avatar) => {
@@ -55,7 +57,7 @@ dropZone.addEventListener("drop", (e) => {
   const avatarId = e.dataTransfer.getData("text/plain");
   const droppedAvatar = document.getElementById(avatarId);
 
-  dropZone.innerHTML = "";
+  dropZone.innerHTML = ""; //delete what was inside
   const img = document.createElement("img");
   img.src = droppedAvatar.src;
   img.style.width = "100%";
@@ -65,6 +67,7 @@ dropZone.addEventListener("drop", (e) => {
   selectedAvatar = avatarId;
 });
 
+//confirm button
 confirmAvatarButton.addEventListener("click", () => {
   selectedSprites = [
     `./assets/sprites/${selectedAvatar}1.png`,
@@ -72,7 +75,7 @@ confirmAvatarButton.addEventListener("click", () => {
     `./assets/sprites/${selectedAvatar}3.png`,
   ];
 
-  alert("Avatar changed with succes !");
+  alert("Avatar changed with success !");
   avatarMenu.style.display = "none";
   mainMenu.style.display = "flex";
 });
@@ -208,7 +211,16 @@ function initLevel(levelNumber) {
   );
   enemies = levelConfig.enemies.map(
     (e) =>
-      new Enemy(e.x, e.y, e.width, e.height, e.speed, e.moveDistance, e.type, e.direction)
+      new Enemy(
+        e.x,
+        e.y,
+        e.width,
+        e.height,
+        e.speed,
+        e.moveDistance,
+        e.type,
+        e.direction
+      )
   );
   camera = new Camera(player, canvas);
 }
@@ -293,6 +305,7 @@ playButton.addEventListener("click", () => {
 avatarButton.addEventListener("click", () => {
   mainMenu.style.display = "none";
   avatarMenu.style.display = "flex";
+  canvas.style.display = "none";
 });
 
 optionsButton.addEventListener("click", () => {
@@ -342,7 +355,7 @@ document.getElementById("settingsForm").addEventListener("submit", (event) => {
 
 // Start the Game Loop
 function startGame() {
-  console.log( gameSpeed );
+  console.log(gameSpeed);
   initLevel(currentLevel);
 
   function gameLoop(timestamp) {

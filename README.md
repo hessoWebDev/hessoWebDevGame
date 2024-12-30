@@ -42,8 +42,13 @@ Players must guide the astronaut through various levels, aiming to reach the bas
 - Avoid enemies with precise timing.
 - Reach the end of each level to proceed.
 
-
 ## Contribution
 
 Feel free to submit bug reports or suggest features.
 
+## Resources
+
+- **Presentation**: [Project Presentation](Presentation.ppt)
+- **Documentation**: [Project Report](FinalReport.pdf)
+
+Thank you for your interest in our project!
