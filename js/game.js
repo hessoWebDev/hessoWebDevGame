@@ -268,13 +268,33 @@ function gameComplete() {
   cancelAnimationFrame(animationFrameId); // Stop the game loop
   stopTimeCounter(); // Stop time counter
   const gameCompleteMenu = document.getElementById("gameCompleteMenu");
-  gameCompleteMenu.style.display = "flex"; // Show the Game Complete screen
+  gameCompleteMenu.style.display = "flex";
+
+  const saveScoreButton = document.getElementById("saveScoreButton");
+  const playerNameInput = document.getElementById("playerName");
+
+  saveScoreButton.addEventListener("click", () => {
+    const playerName = playerNameInput.value.trim();
+    if (playerName) {
+      const score = Math.floor(globalGameTimer);
+      saveScore(playerName, score);
+      alert("Score saved!");
+      gameCompleteMenu.style.display = "none";
+
+      globalGameTimer = 0;
+
+      showMainMenu();
+    } else {
+      alert("Please enter your name!");
+    }
+  });
 }
 
 // Handle Game Over
 function gameOver() {
   cancelAnimationFrame(animationFrameId); // Stop the game loop
   stopTimeCounter(); // Stop time counter
+
   gameOverMenu.style.display = "flex"; // Show Game Over menu
 }
 
@@ -289,6 +309,7 @@ mainMenuButton.addEventListener("click", () => {
   gameOverMenu.style.display = "none"; // Hide Game Over menu
   mainMenu.style.display = "flex"; // Show Main Menu
   currentLevel = 1; // Reset levels
+  globalGameTimer = 0;
   stopTimeCounter(); // Stop time counter
   backgroundMusic.pause(); // stop the music
   backgroundMusic.currentTime = 0;
@@ -355,7 +376,8 @@ document.getElementById("settingsForm").addEventListener("submit", (event) => {
 
 // Start the Game Loop
 function startGame() {
-  console.log(gameSpeed);
+  globalGameTimer = 0;
+
   initLevel(currentLevel);
 
   function gameLoop(timestamp) {
@@ -420,3 +442,82 @@ function startGame() {
 
 // Load levels and start the game
 loadLevels();
+
+function displayGlobalTimer() {
+  const seconds = Math.floor(globalGameTimer % 60)
+    .toString()
+    .padStart(2, "0");
+  const minutes = Math.floor(globalGameTimer / 60)
+    .toString()
+    .padStart(2, "0");
+  const timerString = `${minutes}:${seconds}`;
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "24px Arial";
+  ctx.fillText(timerString, 90, 60);
+}
+
+function saveScore(playerName, scoreInSeconds) {
+  let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+  const existingEntry = leaderboard.find((entry) => entry.name === playerName);
+
+  if (existingEntry) {
+    if (scoreInSeconds < existingEntry.score) {
+      existingEntry.score = scoreInSeconds;
+    }
+  } else {
+    leaderboard.push({ name: playerName, score: scoreInSeconds });
+  }
+
+  leaderboard.sort((a, b) => a.score - b.score);
+
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+  mainMenu.style.display = "flex";
+  gameCompleteMenu.style.display = "none";
+  currentLevel = 1;
+}
+
+function showleaderboard() {
+  const leaderboardmenu = document.getElementById("rankingMenu");
+  leaderboardmenu.style.display = "flex";
+  displayLeaderboard();
+}
+
+LeaderboardButton.addEventListener("click", () => {
+  showleaderboard();
+  mainMenu.style.display = "none";
+});
+
+LeaderboardMainMenuButton.addEventListener("click", () => {
+  const LeaderboardMenu = document.getElementById("rankingMenu");
+  LeaderboardMenu.style.display = "none";
+  mainMenu.style.display = "flex"; // Show the Main Menu
+});
+
+function displayLeaderboard() {
+  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+  const leaderboardTable = document.getElementById("leaderboardTable");
+
+  leaderboardTable.innerHTML = "";
+
+  // Affiche les scores triés
+  leaderboard.forEach((entry, index) => {
+    const row = leaderboardTable.insertRow();
+    const rankCell = row.insertCell(0);
+    const nameCell = row.insertCell(1);
+    const scoreCell = row.insertCell(2);
+
+    rankCell.innerText = index + 1;
+    nameCell.innerText = entry.name;
+    scoreCell.innerText = formatTime(entry.score);
+  });
+}
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, "0");
+  const remainingSeconds = (seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${remainingSeconds}`;
+}
