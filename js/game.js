@@ -391,7 +391,9 @@ document.getElementById("settingsForm").addEventListener("submit", (event) => {
 
 // Start the Game Loop
 function startGame() {
-  globalGameTimer = 0;
+  if (currentLevel === 1) {
+    globalGameTimer = 0; // Reset timer only at level 1
+  }
 
   initLevel(currentLevel);
 
