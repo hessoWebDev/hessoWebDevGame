@@ -293,6 +293,7 @@ function gameComplete() {
       gameCompleteMenu.style.display = "none";
       canvas.style.display = "none";
       globalGameTimer = 0;
+      currentLevel = 1;
       mainMenu.style.display = "flex";
     } else {
       alert("Please enter your name!");
@@ -402,6 +403,8 @@ function startGame() {
     lastTime = timestamp;
 
     globalGameTimer += deltaTime / 1000;
+
+    console.log(globalGameTimer);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
