@@ -404,8 +404,6 @@ function startGame() {
 
     globalGameTimer += deltaTime / 1000;
 
-    console.log(globalGameTimer);
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw the scrolling background
