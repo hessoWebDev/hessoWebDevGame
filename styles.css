@@ -308,3 +308,11 @@ body {
   background-color: #3e8e41;
   transform: scale(0.95);
 }
+
+#rankingMenu {
+  display: none;
+  background-color: #000; /* Couleur de fond pour contraster */
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}

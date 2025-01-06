@@ -2,6 +2,7 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const mainMenu = document.getElementById("mainMenu");
+const rankingMenu = document.getElementById("rankingMenu");
 const gameOverMenu = document.getElementById("gameOverMenu");
 const playButton = document.getElementById("playButton");
 const optionsButton = document.getElementById("optionsButton");
@@ -24,6 +25,15 @@ let selectedSprites = [
   "./assets/sprites/character2.png",
   "./assets/sprites/character3.png",
 ];
+const LeaderboardButton = document.getElementById("LeaderboardButton");
+const LeaderboardMainMenuButton = document.getElementById(
+  "backToMenuFromRanking"
+);
+const leaderboardTable = document
+  .getElementById("leaderboardTable")
+  .querySelector("tbody");
+const backToMenuFromRanking = document.getElementById("backToMenuFromRanking");
+const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
 
 // Set canvas dimensions
 canvas.width = 800;
@@ -81,6 +91,7 @@ confirmAvatarButton.addEventListener("click", () => {
 });
 
 // Game Variables
+let globalGameTimer = 0;
 let currentLevel = 1;
 let levels = [];
 let player, platforms, enemies, camera;
@@ -280,10 +291,10 @@ function gameComplete() {
       saveScore(playerName, score);
       alert("Score saved!");
       gameCompleteMenu.style.display = "none";
-
+      canvas.style.display = "none";
       globalGameTimer = 0;
-
-      showMainMenu();
+      currentLevel = 1;
+      mainMenu.style.display = "flex";
     } else {
       alert("Please enter your name!");
     }
@@ -355,6 +366,11 @@ backToMenuButton.addEventListener("click", () => {
   mainMenu.style.display = "flex"; // Show Main Menu
 });
 
+backToMenuFromRanking.addEventListener("click", () => {
+  rankingMenu.style.display = "none";
+  mainMenu.style.display = "flex";
+});
+
 //Game difficulty
 document.getElementById("settingsForm").addEventListener("submit", (event) => {
   event.preventDefault();
@@ -376,13 +392,17 @@ document.getElementById("settingsForm").addEventListener("submit", (event) => {
 
 // Start the Game Loop
 function startGame() {
-  globalGameTimer = 0;
+  if (currentLevel === 1) {
+    globalGameTimer = 0; // Reset timer only at level 1
+  }
 
   initLevel(currentLevel);
 
   function gameLoop(timestamp) {
     const deltaTime = (timestamp - lastTime) * gameSpeed; // Adjust timing
     lastTime = timestamp;
+
+    globalGameTimer += deltaTime / 1000;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -394,6 +414,8 @@ function startGame() {
 
     // Display Level Number
     displayLevelNumber();
+
+    displayGlobalTimer();
 
     // Update the camera
     camera.update();
@@ -458,51 +480,32 @@ function displayGlobalTimer() {
 }
 
 function saveScore(playerName, scoreInSeconds) {
-  let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-
-  const existingEntry = leaderboard.find((entry) => entry.name === playerName);
-
-  if (existingEntry) {
-    if (scoreInSeconds < existingEntry.score) {
-      existingEntry.score = scoreInSeconds;
-    }
-  } else {
-    leaderboard.push({ name: playerName, score: scoreInSeconds });
+  if (!playerName || isNaN(scoreInSeconds)) {
+    console.error("The name of the player is invalid !");
+    return;
   }
 
+  leaderboard.push({ name: playerName, score: scoreInSeconds });
   leaderboard.sort((a, b) => a.score - b.score);
-
   localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-
-  mainMenu.style.display = "flex";
-  gameCompleteMenu.style.display = "none";
-  currentLevel = 1;
-}
-
-function showleaderboard() {
-  const leaderboardmenu = document.getElementById("rankingMenu");
-  leaderboardmenu.style.display = "flex";
-  displayLeaderboard();
+  console.log("Leaderboard saved :", leaderboard);
 }
 
 LeaderboardButton.addEventListener("click", () => {
-  showleaderboard();
   mainMenu.style.display = "none";
+  canvas.style.display = "none";
+  rankingMenu.style.display = "block";
+  displayLeaderboard();
 });
 
 LeaderboardMainMenuButton.addEventListener("click", () => {
-  const LeaderboardMenu = document.getElementById("rankingMenu");
-  LeaderboardMenu.style.display = "none";
+  rankingMenu.style.display = "none";
   mainMenu.style.display = "flex"; // Show the Main Menu
 });
 
 function displayLeaderboard() {
-  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-  const leaderboardTable = document.getElementById("leaderboardTable");
-
   leaderboardTable.innerHTML = "";
 
-  // Affiche les scores triés
   leaderboard.forEach((entry, index) => {
     const row = leaderboardTable.insertRow();
     const rankCell = row.insertCell(0);
