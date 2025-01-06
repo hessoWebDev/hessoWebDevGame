@@ -304,7 +304,7 @@ function gameComplete() {
 // Handle Game Over
 function gameOver() {
   cancelAnimationFrame(animationFrameId); // Stop the game loop
-  stopTimeCounter(); // Stop time counter
+  //stopTimeCounter(); // Stop time counter
 
   gameOverMenu.style.display = "flex"; // Show Game Over menu
 }
